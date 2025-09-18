@@ -42,7 +42,6 @@ class AIService {
 
     } catch (error) {
       console.error('Error in RAG pipeline:', error);
-      // Return a fallback mind map if AI generation fails
       return this.generateFallbackMindMap(answers);
     }
   }
