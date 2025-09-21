@@ -9,7 +9,12 @@ export const generateRoadmapController = async (req: Request, res: Response) => 
       return res.status(400).json({ error: 'Invalid input. "interests" (array) and "query" (string) are required.' });
     }
 
-    const roadmap = await aiService.getCareerRoadmap(interests, query);
+    const answers = interests.reduce((acc: Record<string, string>, interest: string, index: number) => {
+      acc[`q${index + 1}`] = 'A'; 
+      return acc;
+    }, {});
+    
+    const roadmap = await aiService.generateCareerMindMap(answers);
     
     res.status(200).json({ roadmap });
 

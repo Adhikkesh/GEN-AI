@@ -1,18 +1,24 @@
 import express from 'express';
 import cors from 'cors';
-import { generateRoadmapController } from './controllers/advisor.controller';
+import { getQuizController, analyzeQuizController } from './controllers/quiz.controller';
 
 const app = express();
 const port = process.env.PORT || 8080;
 
-// Middleware
 app.use(cors());
 app.use(express.json());
 
-// API Route
-app.post('/api/generate-roadmap', generateRoadmapController);
+app.get('/health', (req, res) => {
+  res.status(200).json({ status: 'OK', message: 'SKAR AI Advisor API is running' });
+});
 
-// Start the server
+
+app.get('/api/quiz', getQuizController);    
+app.post('/api/analyze', analyzeQuizController); 
+app.post('/api/generate-roadmap', analyzeQuizController);
+
 app.listen(port, () => {
-  console.log(`🚀 Server is running at http://localhost:${port}`);
+  console.log(`SKAR AI Advisor API is running at http://localhost:${port}`);
+  console.log(`Quiz endpoint: GET http://localhost:${port}/api/quiz`);
+  console.log(`Analysis endpoint: POST http://localhost:${port}/api/analyze`);
 });
