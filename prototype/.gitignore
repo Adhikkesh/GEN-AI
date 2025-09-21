@@ -38,4 +38,4 @@ yarn-error.log*
 *.pem
 
 
-apps/api/src/config/serviceAccountKey.json
+apps/api/src/config/gen-ai-adhikkesh-firebase-adminsdk-fbsvc-829a3aff1d.json
