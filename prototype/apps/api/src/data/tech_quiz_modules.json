@@ -181,9 +181,9 @@
         { "id": "C", "text": "It handles complex algorithms and data structures" }
       ],
       "next_question": {
-        "A": "q11",
-        "B": "q11",
-        "C": "q11"
+        "A": "END",
+        "B": "END",
+        "C": "END"
       },
       "interest_tags": {
         "A": ["software engineering", "maintainability"],
