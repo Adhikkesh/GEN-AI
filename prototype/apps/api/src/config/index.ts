@@ -1,10 +1,12 @@
+import 'dotenv/config';
+
 export const config = {
   port: process.env.PORT || 8080,
   nodeEnv: process.env.NODE_ENV || 'development',
   
   gcp: {
     projectId: process.env.GCP_PROJECT_ID || 'your-gcp-project-id',
-    location: process.env.GCP_REGION || process.env.VERTEX_AI_LOCATION || 'us-central1',
+    location: process.env.GCP_REGION || 'us-central1',
   },
   
   vertexAI: {
@@ -23,7 +25,12 @@ export const config = {
   
   logging: {
     level: process.env.LOG_LEVEL || 'info',
-  }
+  },
+
+  theirStack: { 
+    apiKey: process.env.THEIR_STACK_API_KEY,
+  },
+
 };
 
 if (config.nodeEnv === 'development') {
