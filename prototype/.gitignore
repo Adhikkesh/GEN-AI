@@ -36,3 +36,6 @@ yarn-error.log*
 # Misc
 .DS_Store
 *.pem
+
+
+apps/api/src/config/gen-ai-adhikkesh-firebase-adminsdk-fbsvc-829a3aff1d.json
