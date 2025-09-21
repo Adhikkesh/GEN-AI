@@ -5,28 +5,47 @@ import { MatchServiceClient, PredictionServiceClient, IndexEndpointServiceClient
 import { CareerAnalysis } from '../data/ai.types';
 import { getDb } from '../config/firebase';
 
-const vertexAI = new VertexAI({
-  project: config.gcp.projectId!,
-  location: config.gcp.location!,
-});
+const getVertexAIClient = () => {
+  const clientOptions: any = {
+    project: config.gcp.projectId!,
+    location: config.gcp.location!,
+  };
+
+  if (process.env.NODE_ENV === 'production' || process.env.GOOGLE_CLOUD_PROJECT) {
+    console.log("Using Application Default Credentials for Vertex AI...");
+  } else if (config.auth.credentialsPath) {
+    console.log("Using service account credentials for Vertex AI...");
+    clientOptions.keyFilename = config.auth.credentialsPath;
+  }
+
+  return new VertexAI(clientOptions);
+};
+
+const vertexAI = getVertexAIClient();
 
 const generativeModel = vertexAI.getGenerativeModel({
   model: 'gemini-2.5-pro',
 });
 
-const predictionServiceClient = new PredictionServiceClient({
-  apiEndpoint: `${config.gcp.location}-aiplatform.googleapis.com`,
-});
+const getClientOptions = () => {
+  const clientOptions: any = {
+    apiEndpoint: `${config.gcp.location}-aiplatform.googleapis.com`,
+  };
 
-const indexEndpointClient = new IndexEndpointServiceClient({
-  apiEndpoint: `${config.gcp.location}-aiplatform.googleapis.com`,
-});
+  if (process.env.NODE_ENV !== 'production' && config.auth.credentialsPath) {
+    clientOptions.keyFilename = config.auth.credentialsPath;
+  }
+
+  return clientOptions;
+};
+
+const predictionServiceClient = new PredictionServiceClient(getClientOptions());
+const indexEndpointClient = new IndexEndpointServiceClient(getClientOptions());
 
 class AIService {
   private async retrieveRelevantDocuments(query: string): Promise<string[]> {
     console.log('Querying Vector DB for IDs:', query);
     const db = await getDb();
-    // Create embedding using PredictionServiceClient
     const project = config.gcp.projectId;
     const location = config.gcp.location;
     const model = 'text-embedding-004';
@@ -45,7 +64,7 @@ class AIService {
 
     const parameters: protos.google.protobuf.IValue = {
       structValue: {
-        fields: {}, // Add outputDimensionality here if needed, e.g., { outputDimensionality: { numberValue: 256 } }
+        fields: {}, 
       },
     };
 
@@ -107,7 +126,6 @@ class AIService {
       return [];
     }
 
-    // Get the index endpoint details to retrieve the public domain
     const indexEndpointName = `projects/${config.gcp.projectId}/locations/${config.gcp.location}/indexEndpoints/${config.vertexAI.indexEndpointId}`;
     const [endpointDetails] = await indexEndpointClient.getIndexEndpoint({
       name: indexEndpointName,
@@ -122,12 +140,6 @@ class AIService {
       return [];
     }
 
-    // const privateEndpoints = deployedIndex.privateEndpoints;
-
-    // if (!privateEndpoints || !privateEndpoints.matchGrpcAddress) {
-    //   console.error('Private endpoints not found or matchGrpcAddress not set. Ensure the index is deployed with private access.');
-    //   return [];
-    // }
 
     const matchGrpcAddress = endpointDetails.publicEndpointDomainName;
     if (!matchGrpcAddress) {
@@ -136,12 +148,10 @@ class AIService {
     }
     
 
-    // Matching Engine client with private address
     const matchServiceClient = new MatchServiceClient({
       apiEndpoint: matchGrpcAddress,
     });
 
-    // Matching Engine find neighbors
     const [matchResponse] = await matchServiceClient.findNeighbors({
       indexEndpoint: indexEndpointName,
       deployedIndexId: config.vertexAI.deployedIndexId!,
