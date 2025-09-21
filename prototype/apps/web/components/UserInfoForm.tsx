@@ -2,8 +2,24 @@
 
 import { useState } from 'react';
 
+interface UserInfo {
+  firstName: string;
+  lastName: string;
+  userType: 'student' | 'employee';
+  skills: string[];
+  interests: string[];
+  degree?: string;
+  course?: string;
+  college?: string;
+  year?: string;
+  experience?: string;
+  jobRole?: string;
+  company?: string;
+  qualification?: string;
+}
+
 interface Props {
-  onSubmit: (info: any) => void;
+  onSubmit: (info: UserInfo) => void;
 }
 
 const predefinedSkills = [
@@ -13,6 +29,13 @@ const predefinedSkills = [
   'SQL', 'PostgreSQL', 'MongoDB', 'Redis',
   'Docker', 'Kubernetes', 'AWS', 'Google Cloud', 'Azure',
   'Git', 'CI/CD', 'Jest', 'Cypress'
+];
+
+const predefinedInterests = [
+  'software development', 'web development', 'mobile development', 
+  'ai', 'machine learning', 'data science', 'cybersecurity',
+  'cloud computing', 'devops', 'ui/ux design', 'product management',
+  'blockchain', 'game development', 'robotics', 'full stack'
 ];
 
 export default function UserInfoForm({ onSubmit }: Props) {
@@ -29,6 +52,9 @@ export default function UserInfoForm({ onSubmit }: Props) {
   const [skills, setSkills] = useState<string[]>([]);
   const [skillInput, setSkillInput] = useState('');
   const [showSkillSuggestions, setShowSkillSuggestions] = useState(false);
+  const [interests, setInterests] = useState<string[]>([]);
+  const [interestInput, setInterestInput] = useState('');
+  const [showInterestSuggestions, setShowInterestSuggestions] = useState(false);
 
   const handleAddSkill = (skill: string) => {
     if (skill && !skills.includes(skill)) setSkills([...skills, skill]);
@@ -43,14 +69,28 @@ export default function UserInfoForm({ onSubmit }: Props) {
     setShowSkillSuggestions(true);
   }
 
+  const handleAddInterest = (interest: string) => {
+    if (interest && !interests.includes(interest)) setInterests([...interests, interest]);
+    setInterestInput('');
+    setShowInterestSuggestions(false);
+  };
+
+  const handleRemoveInterest = (interestToRemove: string) => setInterests(interests.filter(interest => interest !== interestToRemove));
+  
+  const handleInterestInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setInterestInput(e.target.value);
+    setShowInterestSuggestions(true);
+  }
+
   const filteredSkills = predefinedSkills.filter(s => s.toLowerCase().includes(skillInput.toLowerCase()) && !skills.includes(s));
+  const filteredInterests = predefinedInterests.filter(i => i.toLowerCase().includes(interestInput.toLowerCase()) && !interests.includes(i));
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    const commonData = { firstName, lastName, skills: skills.join(', ') };
-    const userData = userType === 'student'
-      ? { ...commonData, userType, degree, course, college, year, qualification: `${degree} in ${course}, ${year}` }
-      : { ...commonData, userType, experience, jobRole, company, qualification: `${experience} years as ${jobRole}` };
+    const commonData = { firstName, lastName, skills, interests, userType };
+    const userData: UserInfo = userType === 'student'
+      ? { ...commonData, degree, course, college, year, qualification: `${degree} in ${course}, ${year}` }
+      : { ...commonData, experience, jobRole, company, qualification: `${experience} years as ${jobRole}` };
     onSubmit(userData);
   };
   
@@ -106,6 +146,24 @@ export default function UserInfoForm({ onSubmit }: Props) {
           </div>
 
           <div className="relative">
+              <label className="block text-sm font-medium text-slate-600 mb-2">Interests</label>
+              <div className="flex flex-wrap gap-2 p-2 border border-slate-200 rounded-lg bg-slate-100">
+                  {interests.map(interest => (
+                      <div key={interest} className="flex items-center bg-blue-500 text-white text-sm font-medium px-3 py-1 rounded-full">
+                          <span>{interest}</span>
+                          <button type="button" onClick={() => handleRemoveInterest(interest)} className="ml-2 text-blue-200 hover:text-white">&times;</button>
+                      </div>
+                  ))}
+                  <input type="text" value={interestInput} onChange={handleInterestInputChange} onFocus={() => setShowInterestSuggestions(true)} onKeyDown={(e) => e.key === 'Enter' && interestInput && (e.preventDefault(), handleAddInterest(interestInput))} placeholder="Type your interests..." className="flex-grow bg-transparent text-slate-800 focus:outline-none p-1" />
+              </div>
+              {showInterestSuggestions && filteredInterests.length > 0 && (
+                  <ul className="absolute z-10 w-full bg-white border border-slate-200 rounded-md mt-1 max-h-48 overflow-y-auto shadow-lg">
+                      {filteredInterests.map(interest => (<li key={interest} onClick={() => handleAddInterest(interest)} className="px-4 py-2 text-slate-700 cursor-pointer hover:bg-slate-100">{interest}</li>))}
+                  </ul>
+              )}
+          </div>
+
+          <div className="relative">
               <label className="block text-sm font-medium text-slate-600 mb-2">Skills</label>
               <div className="flex flex-wrap gap-2 p-2 border border-slate-200 rounded-lg bg-slate-100">
                   {skills.map(skill => (
@@ -124,7 +182,7 @@ export default function UserInfoForm({ onSubmit }: Props) {
           </div>
 
           <button type="submit" className="btn-primary">
-            Build My Path
+            Start Your Journey
           </button>
         </form>
       </div>
