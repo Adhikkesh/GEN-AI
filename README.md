@@ -5,7 +5,7 @@ A sophisticated career guidance platform that leverages AI to help students and 
 
 ## Live Demo
 - Frontend: [Gen-AI Career Platform](https://gen-ai-two-ochre.vercel.app/)
-- Backend API: [Gen-AI Quiz API](https://genai-quiz-api-222073691466.us-central1.run.app)
+- Backend API: [Gen-AI Quiz API](https://genai-quiz-api-222073691466.us-central1.run.app/health)
 - Repository: [GitHub Repo](https://github.com/Adhikkesh/GEN-AI)
 - Demo Video: [Coming Soon]
 
