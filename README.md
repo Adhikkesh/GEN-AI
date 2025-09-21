@@ -69,6 +69,10 @@ The modern job market presents a complex maze for students and young professiona
   - Secure authentication
   - Configuration in `/apps/api/src/config/firebase.ts`
 
+## Architecture Diagram
+<img width="1096" height="793" alt="image" src="https://github.com/user-attachments/assets/22f870be-e2e2-4454-b302-6dcf805e55c9" />
+
+
 ## Knowledge Base
 Comprehensive career information stored in `/knowledge_base/` covering:
 - AI/Machine Learning
