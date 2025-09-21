@@ -5,7 +5,7 @@ import {
   QuizNextResponse 
 } from '../types/api';
 
-const API_BASE_URL = 'https://skar-api-service-222073691466.us-central1.run.app/api/quiz';
+const API_BASE_URL = 'https://genai-quiz-api-222073691466.us-central1.run.app/api/quiz';
 
 class QuizService {
   async startQuiz(interests: string[]): Promise<QuizStartResponse> {
