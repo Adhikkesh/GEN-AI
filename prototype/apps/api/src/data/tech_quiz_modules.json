@@ -1,0 +1,53 @@
+{
+    "start_question_id": "q1",
+    "questions": {
+      "q1": {
+        "id": "q1",
+        "text": "Which area interests you most?",
+        "options": [
+          { "id": "A", "text": "AI and Machine Learning" },
+          { "id": "B", "text": "Web and Mobile Apps" }
+        ],
+        "next_question": {
+          "A": "q2_ai",
+          "B": "q2_web"
+        },
+        "interest_tags": {
+          "A": ["ai", "machine learning"],
+          "B": ["web development", "mobile apps"]
+        }
+      },
+      "q2_ai": {
+        "id": "q2_ai",
+        "text": "What aspect of AI is most exciting?",
+        "options": [
+          { "id": "A", "text": "Building intelligent systems" },
+          { "id": "B", "text": "Working with language models" }
+        ],
+        "next_question": {
+          "A": "END",
+          "B": "END"
+        },
+        "interest_tags": {
+          "A": ["neural networks"],
+          "B": ["nlp", "llm"]
+        }
+      },
+      "q2_web": {
+          "id": "q2_web",
+          "text": "What type of development do you prefer?",
+          "options": [
+            { "id": "A", "text": "Building the user interface (Frontend)" },
+            { "id": "B", "text": "Managing servers and databases (Backend)" }
+          ],
+          "next_question": {
+            "A": "END",
+            "B": "END"
+          },
+          "interest_tags": {
+            "A": ["frontend", "ui/ux"],
+            "B": ["backend", "api"]
+          }
+      }
+    }
+  }
