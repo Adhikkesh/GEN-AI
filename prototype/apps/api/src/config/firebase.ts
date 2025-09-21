@@ -1,37 +1,47 @@
-import { initializeApp, cert, getApps, ServiceAccount } from 'firebase-admin/app';
+import { initializeApp, getApps, cert, ServiceAccount } from 'firebase-admin/app';
 import { getFirestore, Firestore } from 'firebase-admin/firestore';
-import { SecretManagerServiceClient } from '@google-cloud/secret-manager';
+import { config } from './index';
 
-export let db: Firestore;
+let db: Firestore;
 
 export const getDb = async (): Promise<Firestore> => {
   if (db) {
     return db;
   }
-
+  
   if (getApps().length === 0) {
     console.log("Initializing Firebase app...");
-
-    if (process.env.K_SERVICE) {
-        console.log("Running in Cloud Run. Fetching credentials from Secret Manager...");
-        const secretClient = new SecretManagerServiceClient();
-        const [version] = await secretClient.accessSecretVersion({
-            name: 'projects/gen-ai-adhikkesh/secrets/skar-firebase-service-account/versions/latest',
+    
+    try {
+      if (process.env.NODE_ENV === 'production' || process.env.GOOGLE_CLOUD_PROJECT) {
+        console.log("Using Application Default Credentials for Firebase...");
+        initializeApp({
+          projectId: config.gcp.projectId,
         });
-        const payload = version.payload?.data?.toString();
-        if (!payload) {
-            throw new Error('Could not load Firebase service account from Secret Manager.');
-        }
-        const serviceAccount: ServiceAccount = JSON.parse(payload);
-        initializeApp({ credential: cert(serviceAccount) });
-
-    } else {
-        console.log("Running locally. Initializing with local credentials file...");
-        const serviceAccount = require('./gen-ai-adhikkesh-firebase-adminsdk-fbsvc-829a3aff1d.json');
-        initializeApp({ credential: cert(serviceAccount) });
+      } 
+      else if (config.auth.credentialsPath) {
+        console.log("Using service account credentials for Firebase...");
+        const serviceAccount = require(config.auth.credentialsPath) as ServiceAccount;
+        initializeApp({
+          credential: cert(serviceAccount),
+          projectId: config.gcp.projectId,
+        });
+      } 
+      else {
+        console.log("Using default Firebase initialization...");
+        initializeApp({
+          projectId: config.gcp.projectId,
+        });
+      }
+    } catch (error) {
+      console.error("Error initializing Firebase:", error);
+      initializeApp({
+        projectId: config.gcp.projectId,
+      });
     }
   }
 
   db = getFirestore();
+  console.log("Firestore has been initialized successfully.");
   return db;
 };
