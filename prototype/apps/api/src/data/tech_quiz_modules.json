@@ -1,53 +1,195 @@
 {
-    "start_question_id": "q1",
-    "questions": {
-      "q1": {
-        "id": "q1",
-        "text": "Which area interests you most?",
-        "options": [
-          { "id": "A", "text": "AI and Machine Learning" },
-          { "id": "B", "text": "Web and Mobile Apps" }
-        ],
-        "next_question": {
-          "A": "q2_ai",
-          "B": "q2_web"
-        },
-        "interest_tags": {
-          "A": ["ai", "machine learning"],
-          "B": ["web development", "mobile apps"]
-        }
+  "start_question_id": "q1",
+  "questions": {
+    "q1": {
+      "id": "q1",
+      "text": "Which area interests you most?",
+      "options": [
+        { "id": "A", "text": "Creating intelligent systems that learn and adapt" },
+        { "id": "B", "text": "Building the technology that powers websites and apps" },
+        { "id": "C", "text": "Working with numbers and data to find insights" }
+      ],
+      "next_question": {
+        "A": "q2",
+        "B": "q2",
+        "C": "q2"
       },
-      "q2_ai": {
-        "id": "q2_ai",
-        "text": "What aspect of AI is most exciting?",
-        "options": [
-          { "id": "A", "text": "Building intelligent systems" },
-          { "id": "B", "text": "Working with language models" }
-        ],
-        "next_question": {
-          "A": "END",
-          "B": "END"
-        },
-        "interest_tags": {
-          "A": ["neural networks"],
-          "B": ["nlp", "llm"]
-        }
+      "interest_tags": {
+        "A": ["ai", "machine learning"],
+        "B": ["full-stack", "software development"],
+        "C": ["data analysis", "business intelligence"]
+      }
+    },
+    "q2": {
+      "id": "q2",
+      "text": "What type of problem are you most excited to solve?",
+      "options": [
+        { "id": "A", "text": "Designing a seamless user experience" },
+        { "id": "B", "text": "Optimizing complex data-driven systems" },
+        { "id": "C", "text": "Finding creative solutions to visual or verbal challenges" }
+      ],
+      "next_question": {
+        "A": "q3",
+        "B": "q3",
+        "C": "q3"
       },
-      "q2_web": {
-          "id": "q2_web",
-          "text": "What type of development do you prefer?",
-          "options": [
-            { "id": "A", "text": "Building the user interface (Frontend)" },
-            { "id": "B", "text": "Managing servers and databases (Backend)" }
-          ],
-          "next_question": {
-            "A": "END",
-            "B": "END"
-          },
-          "interest_tags": {
-            "A": ["frontend", "ui/ux"],
-            "B": ["backend", "api"]
-          }
+      "interest_tags": {
+        "A": ["frontend", "user experience"],
+        "B": ["backend", "data engineering"],
+        "C": ["nlp", "computer vision"]
+      }
+    },
+    "q3": {
+      "id": "q3",
+      "text": "What kind of data would you prefer to work with?",
+      "options": [
+        { "id": "A", "text": "Structured data in tables and databases" },
+        { "id": "B", "text": "Unstructured data like images, audio, or text" },
+        { "id": "C", "text": "User interaction data to improve an application" }
+      ],
+      "next_question": {
+        "A": "q4",
+        "B": "q4",
+        "C": "q4"
+      },
+      "interest_tags": {
+        "A": ["data analysis", "data science"],
+        "B": ["machine learning", "computer vision", "nlp"],
+        "C": ["frontend", "analytics"]
+      }
+    },
+    "q4": {
+      "id": "q4",
+      "text": "How do you prefer to apply your skills?",
+      "options": [
+        { "id": "A", "text": "Building a full-stack web application" },
+        { "id": "B", "text": "Developing a machine learning model" },
+        { "id": "C", "text": "Visualizing data in a report or dashboard" }
+      ],
+      "next_question": {
+        "A": "q5",
+        "B": "q5",
+        "C": "q5"
+      },
+      "interest_tags": {
+        "A": ["full-stack"],
+        "B": ["ai", "machine learning"],
+        "C": ["data analysis", "business intelligence"]
+      }
+    },
+    "q5": {
+      "id": "q5",
+      "text": "When building a system, what part excites you more?",
+      "options": [
+        { "id": "A", "text": "Creating the logic and APIs on the server-side" },
+        { "id": "B", "text": "Designing the user interface and interactions" },
+        { "id": "C", "text": "Working on both parts of the system" }
+      ],
+      "next_question": {
+        "A": "q6",
+        "B": "q6",
+        "C": "q6"
+      },
+      "interest_tags": {
+        "A": ["backend", "api"],
+        "B": ["frontend", "ui/ux"],
+        "C": ["full-stack"]
+      }
+    },
+    "q6": {
+      "id": "q6",
+      "text": "What kind of projects are most appealing?",
+      "options": [
+        { "id": "A", "text": "Projects that require complex math and algorithms" },
+        { "id": "B", "text": "Projects that require creativity and design thinking" },
+        { "id": "C", "text": "Projects that are highly collaborative and involve many teams" }
+      ],
+      "next_question": {
+        "A": "q7",
+        "B": "q7",
+        "C": "q7"
+      },
+      "interest_tags": {
+        "A": ["ai", "data science"],
+        "B": ["frontend", "ux/ui"],
+        "C": ["full-stack", "devops"]
+      }
+    },
+    "q7": {
+      "id": "q7",
+      "text": "What is more satisfying at work?",
+      "options": [
+        { "id": "A", "text": "Seeing your code deployed to production" },
+        { "id": "B", "text": "Building a model that accurately predicts outcomes" },
+        { "id": "C", "text": "Presenting insights that drive business decisions" }
+      ],
+      "next_question": {
+        "A": "q8",
+        "B": "q8",
+        "C": "q8"
+      },
+      "interest_tags": {
+        "A": ["full-stack", "devops"],
+        "B": ["ai", "machine learning"],
+        "C": ["data analysis", "business intelligence"]
+      }
+    },
+    "q8": {
+      "id": "q8",
+      "text": "When troubleshooting an issue, do you prefer to focus on:",
+      "options": [
+        { "id": "A", "text": "The server and database logs" },
+        { "id": "B", "text": "The user's experience and UI flow" },
+        { "id": "C", "text": "The data integrity and analysis pipeline" }
+      ],
+      "next_question": {
+        "A": "q9",
+        "B": "q9",
+        "C": "q9"
+      },
+      "interest_tags": {
+        "A": ["backend", "devops"],
+        "B": ["frontend", "ux/ui"],
+        "C": ["data analysis", "data engineering"]
+      }
+    },
+    "q9": {
+      "id": "q9",
+      "text": "What kind of project do you find more challenging?",
+      "options": [
+        { "id": "A", "text": "Making a machine understand spoken language" },
+        { "id": "B", "text": "Handling millions of user requests at once" },
+        { "id": "C", "text": "Finding a single meaningful insight in a massive dataset" }
+      ],
+      "next_question": {
+        "A": "q10",
+        "B": "q10",
+        "C": "q10"
+      },
+      "interest_tags": {
+        "A": ["nlp", "ai"],
+        "B": ["backend", "scalability"],
+        "C": ["data analysis", "data science"]
+      }
+    },
+    "q10": {
+      "id": "q10",
+      "text": "What appeals to you most about a codebase?",
+      "options": [
+        { "id": "A", "text": "It's clean, well-documented, and easy to maintain" },
+        { "id": "B", "text": "It's new and you get to build it from scratch" },
+        { "id": "C", "text": "It handles complex algorithms and data structures" }
+      ],
+      "next_question": {
+        "A": "q11",
+        "B": "q11",
+        "C": "q11"
+      },
+      "interest_tags": {
+        "A": ["software engineering", "maintainability"],
+        "B": ["agile", "startup"],
+        "C": ["ai", "data science"]
       }
     }
   }
+}
