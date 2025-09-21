@@ -314,26 +314,7 @@ curl -X POST https://genai-quiz-api-222073691466.us-central1.run.app/api/quiz/ne
   -d '{"quizSessionId": "your_session_id", "questionId": "q1", "answerId": "A"}'
 ```
 
-## Performance & Scalability
-- **Auto-scaling**: Cloud Run handles traffic spikes automatically
-- **Caching**: Redis-based caching for frequently accessed data
-- **CDN**: Global content delivery for static assets
-- **Database**: Firestore's distributed architecture ensures low latency
-
-## Security & Privacy
-- **Authentication**: Firebase Auth with multi-factor support
-- **Data Protection**: End-to-end encryption for sensitive data
-- **Privacy**: GDPR and CCPA compliant data handling
-- **API Security**: Rate limiting and request validation
-
 ## License
 This project is licensed under the MIT License - see the [LICENSE.md](LICENSE.md) file for details.
 
-## Support & Contact
-- **Issues**: [GitHub Issues](https://github.com/Adhikkesh/GEN-AI/issues)
-- **Discussions**: [GitHub Discussions](https://github.com/Adhikkesh/GEN-AI/discussions)
-- **Email**: team@skaraiadvisor.com
-
----
-
-**SKAR AI Advisor** - Empowering careers through intelligent guidance 🚀
+**SKAR AI Advisor** - Empowering careers through intelligent guidance 
