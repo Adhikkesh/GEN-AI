@@ -1,0 +1,18 @@
+{
+  "extends": "@repo/typescript-config/base.json",
+  "compilerOptions": {
+    "outDir": "dist",
+    "rootDir": "src",
+    "composite": true,
+    "incremental": true,
+    "tsBuildInfoFile": "dist/.tsbuildinfo",
+    "baseUrl": ".",
+    "paths": {
+      "@skar/shared-types": ["../../packages/shared-types/src"],
+      "@skar/shared-utils": ["../../packages/shared-utils/src"],
+      "@skar/gcp-clients": ["../../packages/gcp-clients/src"]
+    }
+  },
+  "include": ["src/**/*"],
+  "exclude": ["node_modules", "dist"]
+}
