@@ -9,15 +9,24 @@
     "start": "node dist/index.js"
   },
   "dependencies": {
-    "@google-cloud/firestore": "^6.5.1",
-    "@google-cloud/pubsub": "^3.3.0",
-    "body-parser": "^1.20.2",
-    "cors": "^2.8.5",
-    "express": "^4.21.2"
+    "@google-cloud/aiplatform": "^4.4.0",
+    "@google-cloud/bigquery": "^7.9.4",
+    "@google-cloud/functions-framework": "^3.5.1",
+    "@google-cloud/pubsub": "^4.0.7",
+    "@google-cloud/vertexai": "^1.10.0",
+    "axios": "^1.13.1",
+    "dotenv": "^16.6.1",
+    "express": "^4.21.2",
+    "firebase-admin": "^12.7.0",
+    "google-auth-library": "^10.5.0",
+    "p-retry": "^7.1.0",
+    "pg": "^8.16.3",
+    "zod": "^3.25.76"
   },
   "devDependencies": {
     "@repo/typescript-config": "workspace:*",
-    "@types/express": "^5.0.3",
+    "@types/express": "^4.17.25",
+    "@types/node": "^20.19.24",
     "ts-node": "^10.9.2",
     "ts-node-dev": "^2.0.0",
     "typescript": "^5.9.2"
