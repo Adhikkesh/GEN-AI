@@ -1,0 +1,5 @@
+functions-framework
+firebase-admin
+google-cloud-firestore
+google-cloud-aiplatform
+vertexai
