@@ -1,3 +1,5 @@
+import { useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 import { Routes, Route } from "react-router-dom";
 import { SidebarProvider, SidebarTrigger } from "@/components/ui/sidebar";
 import { AppSidebar } from "@/components/AppSidebar";
@@ -6,6 +8,21 @@ import News from "./News";
 import Jobs from "./Jobs";
 
 const Dashboard = () => {
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    const token = localStorage.getItem('idToken');
+    if (!token) {
+      navigate('/signup', { replace: true });
+    }
+  }, [navigate]);
+
+  // Optionally, render a loading state or nothing until check completes, but for simplicity, proceed
+  const token = localStorage.getItem('idToken');
+  if (!token) {
+    return null; // Or a loading spinner, but since navigate is async, it will redirect soon
+  }
+
   return (
     <SidebarProvider>
       <div className="min-h-screen flex w-full">
