@@ -4,7 +4,7 @@
 SKAR AI Advisor is a sophisticated career guidance platform that leverages artificial intelligence to help students and young professionals navigate their career paths. The platform provides personalized career recommendations, intelligent skill assessments, and comprehensive learning roadmaps using advanced AI technologies.
 
 ## Live Demo
-- **Frontend (Vercel)**: [SKAR AI Career Platform](https://gen-ai-two-ochre.vercel.app/)
+- **Frontend (Vercel)**: [SKAR AI Career Platform](https://gen-ai-blush.vercel.app/)
 - **Backend API (Cloud Run)**: [SKAR AI Advisor API](https://genai-quiz-api-222073691466.us-central1.run.app/health)
 - **Repository**: [GitHub Repo](https://github.com/Adhikkesh/GEN-AI)
 - **Demo Video**: [Demo Video](https://drive.google.com/file/d/14t9x5uX0mVXkzwBSFvqwi-CYp5RsA2Rp/view?usp=sharing)
