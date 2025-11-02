@@ -40,11 +40,11 @@ const Upload = () => {
   };
 
   const handleTakeQuiz = () => {
-    toast({
-      title: "Info",
-      description: "Quiz feature coming soon",
-    });
-    navigate("/dashboard");
+    // toast({
+    //   title: "Info",
+    //   description: "Quiz feature coming soon",
+    // });
+    navigate("/quiz");
   };
 
   return (
