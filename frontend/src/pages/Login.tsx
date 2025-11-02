@@ -1,29 +1,47 @@
 import { useState } from "react";
 import { useNavigate, Link } from "react-router-dom";
+import { signInWithEmailAndPassword } from "firebase/auth";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Card } from "@/components/ui/card";
 import { useToast } from "@/hooks/use-toast";
+import { auth } from "../lib/auth"; // Adjust path
 
 const Login = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [isLoading, setIsLoading] = useState(false);
   const navigate = useNavigate();
   const { toast } = useToast();
 
-  const handleLogin = (e: React.FormEvent) => {
+  const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault();
+    setIsLoading(true);
     
-    // Store user data in localStorage
-    localStorage.setItem("user", JSON.stringify({ email }));
-    
-    toast({
-      title: "Success",
-      description: "Logged in successfully",
-    });
-    
-    navigate("/dashboard");
+    try {
+      // Use SDK for sign-in (auto-handles token & persistence)
+      const userCredential = await signInWithEmailAndPassword(auth, email, password);
+      const user = userCredential.user;
+
+      console.log("SDK Login successful:", user.email); // Debug
+
+      toast({
+        title: "Success",
+        description: "Logged in successfully",
+      });
+      
+      navigate("/dashboard");
+    } catch (error) {
+      console.error("SDK Login failed:", error); // Debug
+      toast({
+        title: "Error",
+        description: error.message || "Login failed",
+        variant: "destructive",
+      });
+    } finally {
+      setIsLoading(false);
+    }
   };
 
   return (
@@ -44,6 +62,7 @@ const Login = () => {
               value={email}
               onChange={(e) => setEmail(e.target.value)}
               required
+              disabled={isLoading}
             />
           </div>
           
@@ -55,11 +74,12 @@ const Login = () => {
               value={password}
               onChange={(e) => setPassword(e.target.value)}
               required
+              disabled={isLoading}
             />
           </div>
           
-          <Button type="submit" className="w-full">
-            Login
+          <Button type="submit" className="w-full" disabled={isLoading}>
+            {isLoading ? "Logging in..." : "Login"}
           </Button>
         </form>
         

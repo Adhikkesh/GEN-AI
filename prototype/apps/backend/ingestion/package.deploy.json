@@ -1,0 +1,22 @@
+{
+  "name": "ingestion-function",
+  "version": "1.0.0",
+  "main": "index.js",
+  "engines": {
+    "node": "20"
+  },
+  "dependencies": {
+    "@google-cloud/bigquery": "^7.9.4",
+    "@google-cloud/functions-framework": "^3.5.1",
+    "@google-cloud/pubsub": "^4.0.7",
+    "@google-cloud/vertexai": "^1.10.0",
+    "axios": "^1.13.1",
+    "dotenv": "^16.6.1",
+    "express": "^4.21.2",
+    "firebase-admin": "^12.7.0",
+    "google-auth-library": "^10.5.0",
+    "p-retry": "^7.1.0",
+    "pg": "^8.16.3",
+    "zod": "^3.25.76"
+  }
+}

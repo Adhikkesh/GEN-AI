@@ -1,0 +1,119 @@
+{
+    "search_metadata": {
+        "id": "6905ac6809a51ab44c386154",
+        "status": "Success",
+        "json_endpoint": "https://serpapi.com/searches/cced03aab6c8d4f4/6905ac6809a51ab44c386154.json",
+        "created_at": "2025-11-01 06:44:56 UTC",
+        "processed_at": "2025-11-01 06:44:56 UTC",
+        "google_news_light_url": "https://www.google.com/search?q=artificial+intelligence+machine+learning+career+jobs+hiring&oq=artificial+intelligence+machine+learning+career+jobs+hiring&num=10&sourceid=chrome&ie=UTF-8&gbv=1&tbm=nws",
+        "raw_html_file": "https://serpapi.com/searches/cced03aab6c8d4f4/6905ac6809a51ab44c386154.html",
+        "total_time_taken": 1.21
+    },
+    "search_parameters": {
+        "engine": "google_news_light",
+        "q": "artificial intelligence machine learning career jobs hiring",
+        "google_domain": "google.com",
+        "num": "10",
+        "device": "desktop"
+    },
+    "search_information": {
+        "query_displayed": "artificial intelligence machine learning career jobs hiring",
+        "news_results_state": "Results for exact spelling"
+    },
+    "news_results": [
+        {
+            "position": 1,
+            "title": "How AI Affects Careers in Computing",
+            "link": "https://www.mtu.edu/computing/ai/career-affects/",
+            "source": "Michigan Technological University",
+            "thumbnail": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRgl3hU3cnvRvXu_SLbJ4YVOPRZL2hSPyHQnAaxiEaN12fXbInhfRZJpE6ggA&s",
+            "snippet": "Discover how AI is reshaping computing careers, which jobs are growing, and how to prepare for the AI-driven future. Explore professional insights, salary...",
+            "date": "2 months ago"
+        },
+        {
+            "position": 2,
+            "title": "AI Career Paths 2025: Best Jobs & Future Opportunities",
+            "link": "https://vocal.media/futurism/ai-career-paths-2025-best-jobs-and-future-opportunities",
+            "source": "vocal.media",
+            "thumbnail": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRTGLw7nmrKAsyqwJRk6cQ6uhsx_FV3k-Ox5KQb_87TpXhBg6cJZ8q7sv_E2w&s",
+            "snippet": "AI is transforming every career. Explore the best AI roles, skills, and salaries to stay ahead in 2025's intelligent job market.",
+            "date": "3 weeks ago"
+        },
+        {
+            "position": 3,
+            "title": "How to Become an AI Engineer: Skills, Roles and Career Guide",
+            "link": "https://www.simplilearn.com/tutorials/artificial-intelligence-tutorial/how-to-become-an-ai-engineer",
+            "source": "Simplilearn.com",
+            "thumbnail": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSiAlyOIKmJer8XG3_BDcI7d4MzcqQFJudaoGPPi8nFfcVYCcx5-8GPPsqGkg&s",
+            "snippet": "Learn how to become an AI Engineer in 2026. Explore essential skills, roles, salary, and step-by-step roadmap to build a career in AI...",
+            "date": "2 weeks ago"
+        },
+        {
+            "position": 4,
+            "title": "Think AI Is Killing Early-Career Jobs? The Truth May Surprise You",
+            "link": "https://www.collegerecruiter.com/blog/2025/06/17/think-ai-is-killing-early-career-jobs-the-truth-may-surprise-you",
+            "source": "College Recruiter",
+            "thumbnail": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSze7rA-MXL1g19i6YUqqnjDbHj55NOcfxOrGbVum0PqoBHOctaJCDd2V3U4A&s",
+            "snippet": "Earlier today, I was a panelist on the June Talent Market Index webinar about the early-career job market, hosted by Talivity, the parent...",
+            "date": "4 months ago"
+        },
+        {
+            "position": 5,
+            "title": "AI skills are in high demand — and employers are willing to pay a premium for them",
+            "link": "https://www.cnbc.com/2025/09/04/employers-are-paying-a-premium-for-ai-skills-most-non-tech-jobs.html",
+            "source": "CNBC",
+            "thumbnail": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTAHPRm8IzDhv2GYnKynG9mwxUMCVOPa4mTvl4h5vILGBDu-wMkNFg4rX8NwQ&s",
+            "snippet": "While there's mounting concerns that artificial intelligence is replacing jobs, it's not all bad news for the labor market, particularly for...",
+            "date": "1 month ago"
+        },
+        {
+            "position": 6,
+            "title": "The Future of AI: Careers in Machine Learning",
+            "link": "https://www.snhu.edu/about-us/newsroom/stem/future-of-ai",
+            "source": "Southern New Hampshire University",
+            "thumbnail": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRpRGRd60AkLgqXjhbNtNZPKEKx1WhcErRdze7mrOS-j63OvP2LPZlXsL7zqA&s",
+            "snippet": "Some of the job titles you might look into include data scientist, artificial intelligence engineer, big data engineer, robotics scientist, machine learning...",
+            "date": "5 months ago"
+        },
+        {
+            "position": 7,
+            "title": "AWS features four AI certifications to give you an edge in pursuing in-demand cloud jobs",
+            "link": "https://www.aboutamazon.com/news/aws/aws-certifications-generative-ai-machine-learning-cloud-jobs",
+            "source": "About Amazon",
+            "thumbnail": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQycZk31ji0LnLZV6O8axJeOT5EakpFIKXLTUVPKB5_jfRscGU9vGshD1U_wg&s",
+            "snippet": "As organizations work to implement generative AI solutions, AWS continues to expand its certification portfolio to meet growing demand for...",
+            "date": "2 weeks ago"
+        },
+        {
+            "position": 8,
+            "title": "Will AGI Take Your Job? Jobs at Risk in the AI Economy.",
+            "link": "https://builtin.com/artificial-intelligence/artificial-general-intelligence-job-market-impact",
+            "source": "Built In",
+            "thumbnail": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTqig0lSpKKu6QI0zn76qjc90DrRALCfKIrOMiulIX8yFe1EWocrQP3xEjH8A&s",
+            "snippet": "Artificial intelligence is reshaping the business landscape, with lasting consequences for the job market. According to a World Economic...",
+            "date": "2 months ago"
+        },
+        {
+            "position": 9,
+            "title": "AI in Job Postings: What Employers in Canada Need to Know",
+            "link": "https://ogletree.com/insights-resources/blog-posts/ai-in-job-postings-what-employers-in-canada-need-to-know/",
+            "source": "Ogletree",
+            "thumbnail": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQDjXSaGvtLElKQsWf6g0mbHGHGxWhO9x-F7nQ1YTvDeAwGcTQCJz9yRDN_OQ&s",
+            "snippet": "Artificial intelligence (AI) is rapidly changing the hiring landscape. Whether scanning resumes with machine learning tools or ranking...",
+            "date": "5 months ago"
+        },
+        {
+            "position": 10,
+            "title": "Skilled AI and ML workers are the hottest commodity in the IT job market",
+            "link": "https://www.spiceworks.com/it-careers/skilled-ai-and-ml-workers-are-the-hottest-commodity-in-the-it-job-market/",
+            "source": "Spiceworks",
+            "thumbnail": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTKIWolcl1lM2dpqrSYUEbNL-cfO7Yiv7SIzt4f-puu6fbF97Cj5OwfjcKsLg&s",
+            "snippet": "Countless tech industry experts have warned that the rapid adoption of artificial intelligence will be a huge disruptor to the workforce,...",
+            "date": "1 month ago"
+        }
+    ],
+    "serpapi_pagination": {
+        "current": 1,
+        "next": "https://serpapi.com/search.json?device=desktop&engine=google_news_light&google_domain=google.com&num=10&q=artificial+intelligence+machine+learning+career+jobs+hiring&start=10&location=Austin%2C+TX%2C+Texas%2C+United+States"
+    }
+}
