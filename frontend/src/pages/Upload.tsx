@@ -130,32 +130,53 @@ const Upload = () => {
     setCurrentStep(0);
 
     try {
-      // --- THIS BLOCK IS NOW FIXED ---
-      // Step 0: Handle resume analysis
-      // Your backend expects JSON with a 'filename', not FormData.
-      // This assumes you have a separate process for uploading the file to GCS.
+      // Step 0: Upload resume to get path
+      const formData = new FormData();
+      formData.append("file", file);
+
+      const uploadResponse = await fetch(`${baseURL}/upload_resume`, {
+        method: "POST",
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+        body: formData,
+      });
+
+      if (!uploadResponse.ok) {
+        const errorText = await uploadResponse.text();
+        console.error("Upload Error:", errorText);
+        throw new Error(`Failed to upload resume: ${errorText}`);
+      }
+
+      const uploadData = await uploadResponse.json();
+      const resumePath = uploadData.path;
+      if (!resumePath) {
+        throw new Error("No path returned from upload");
+      }
+
+      // Step 0 continued: Handle resume with the path
       const resumeResponse = await fetch(`${baseURL}/handle_resume`, {
         method: "POST",
         headers: {
           Authorization: `Bearer ${token}`,
-          'Content-Type': 'application/json', // <-- This header is required
+          "Content-Type": "application/json",
         },
-        body: JSON.stringify({ filename: file.name }), // <-- Send JSON, not FormData
-      }).then((res) => {
-        if (!res.ok) {
-          // Log the error from the server
-          res.text().then(text => console.error("Server Error:", text));
-          throw new Error("Failed to process resume");
-        }
-        return res.json();
+        body: JSON.stringify({ filename: resumePath }), // Assuming /handle_resume expects { filename: path }
       });
-      // --- END OF FIX ---
+
+      if (!resumeResponse.ok) {
+        const errorText = await resumeResponse.text();
+        console.error("Handle Resume Error:", errorText);
+        throw new Error(`Failed to process resume: ${errorText}`);
+      }
+
+      const resumeData = await resumeResponse.json();
 
       await delay(1500);
       const nextStepAfterResume = githubUsername ? 1 : 2;
       setCurrentStep(nextStepAfterResume);
 
-      let allRecommendations: Recommendation[] = resumeResponse.recommendations || [];
+      let allRecommendations: Recommendation[] = resumeData.recommendations || [];
 
       // Step 1: Handle GitHub if provided
       if (githubUsername) {
@@ -292,7 +313,7 @@ const Upload = () => {
               <Input
                 id="github"
                 type="url"
-                placeholder="https://github.com/yourusername"
+                placeholder="yourusername"
                 value={githubLink}
                 onChange={(e) => setGithubLink(e.target.value)}
               />
