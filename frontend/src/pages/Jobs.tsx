@@ -1,88 +1,138 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Card } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Input } from "@/components/ui/input";
 import { MapPin, Building2, DollarSign, Search, Filter, Bookmark } from "lucide-react";
-
-const jobsData = [
-  {
-    id: 1,
-    title: "Senior Frontend Developer",
-    company: "TechCorp Solutions",
-    location: "San Francisco, CA",
-    type: "Full-time",
-    salary: "$120k - $160k",
-    skills: ["React", "TypeScript", "Tailwind CSS"],
-    posted: "2 days ago",
-    featured: true,
-  },
-  {
-    id: 2,
-    title: "Full Stack Engineer",
-    company: "Innovation Labs",
-    location: "Remote",
-    type: "Full-time",
-    salary: "$100k - $140k",
-    skills: ["Node.js", "React", "PostgreSQL"],
-    posted: "3 days ago",
-    featured: true,
-  },
-  {
-    id: 3,
-    title: "DevOps Engineer",
-    company: "CloudNine Systems",
-    location: "New York, NY",
-    type: "Full-time",
-    salary: "$110k - $150k",
-    skills: ["AWS", "Docker", "Kubernetes"],
-    posted: "5 days ago",
-    featured: false,
-  },
-  {
-    id: 4,
-    title: "UI/UX Designer",
-    company: "Design Studio Pro",
-    location: "Austin, TX",
-    type: "Contract",
-    salary: "$80k - $100k",
-    skills: ["Figma", "Adobe XD", "Prototyping"],
-    posted: "1 week ago",
-    featured: false,
-  },
-  {
-    id: 5,
-    title: "Backend Developer",
-    company: "Data Dynamics",
-    location: "Seattle, WA",
-    type: "Full-time",
-    salary: "$115k - $145k",
-    skills: ["Python", "Django", "Redis"],
-    posted: "1 week ago",
-    featured: false,
-  },
-  {
-    id: 6,
-    title: "Mobile App Developer",
-    company: "AppWorks Inc",
-    location: "Remote",
-    type: "Full-time",
-    salary: "$105k - $135k",
-    skills: ["React Native", "iOS", "Android"],
-    posted: "2 weeks ago",
-    featured: false,
-  },
-];
-
-const filters = [
-  { label: "All Jobs", count: jobsData.length },
-  { label: "Remote", count: 2 },
-  { label: "Full-time", count: 5 },
-  { label: "Contract", count: 1 },
-];
+import { auth, db } from "../lib/auth"; // Adjust path
+import { collection, getDocs, doc, getDoc } from "firebase/firestore";
+import { onAuthStateChanged } from "firebase/auth";
 
 const Jobs = () => {
   const [searchQuery, setSearchQuery] = useState("");
+  const [jobs, setJobs] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
+  const [filters, setFilters] = useState([]);
+  const [user, setUser] = useState(null);
+
+  useEffect(() => {
+    const unsubscribe = onAuthStateChanged(auth, async (currentUser) => {
+      // Small delay for persistence restore (edge case)
+      await new Promise(resolve => setTimeout(resolve, 100));
+      
+      if (currentUser) {
+        setUser(currentUser);
+        console.log("User authenticated via SDK:", currentUser.email); // Debug
+        await fetchJobs(currentUser);
+      } else {
+        console.log("No user authenticated");
+        setUser(null);
+        setError("Please log in to view jobs.");
+        setLoading(false);
+      }
+    });
+
+    return () => unsubscribe();
+  }, []);
+
+  const fetchJobs = async (currentUser) => {
+    setError(null);
+    setLoading(true); // Re-set loading for fetch
+    try {
+      const userDocRef = doc(db, "users", currentUser.uid);
+      const userDoc = await getDoc(userDocRef);
+      if (!userDoc.exists()) {
+        throw new Error("User document not found");
+      }
+
+      const { careerId } = userDoc.data();
+      if (!careerId) {
+        throw new Error("No career profile set up");
+      }
+
+      const listingsCol = collection(db, "career_jobs", careerId, "listings");
+      const snapshot = await getDocs(listingsCol);
+
+      const fetchedJobs = snapshot.docs.map((docSnap) => {
+        const data = docSnap.data();
+        const postedDate = new Date(data.posted_at);
+        const now = new Date();
+        const diffDays = Math.floor((now.getTime() - postedDate.getTime()) / (1000 * 60 * 60 * 24));
+        const posted = diffDays === 0 ? "Today" : `${diffDays} days ago`;
+
+        return {
+          id: docSnap.id,
+          title: data.cleaned_title || data.raw_title,
+          company: data.raw_company_name,
+          location: data.location_text || data.city || data.state || "",
+          type: data.employment_type || "Full-time",
+          salary: data.salary_text || "",
+          skills: data.skills_list || [],
+          posted,
+          featured: diffDays <= 2,
+          applyLink: data.apply_link,
+          description: data.cleaned_description,
+        };
+      });
+
+      setJobs(fetchedJobs);
+
+      const allCount = fetchedJobs.length;
+      const remoteCount = fetchedJobs.filter((j) => j.location.toLowerCase().includes("remote")).length;
+      const fullTimeCount = fetchedJobs.filter((j) => j.type.toLowerCase().includes("full-time")).length;
+      const contractCount = fetchedJobs.filter((j) => j.type.toLowerCase().includes("contract")).length;
+
+      setFilters([
+        { label: "All Jobs", count: allCount },
+        { label: "Remote", count: remoteCount },
+        { label: "Full-time", count: fullTimeCount },
+        { label: "Contract", count: contractCount },
+      ]);
+
+      setLoading(false);
+    } catch (error) {
+      console.error("Error fetching jobs:", error);
+      setError(error.message);
+      setLoading(false);
+    }
+  };
+
+  const filteredJobs = jobs.filter(
+    (job) =>
+      job.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
+      job.company.toLowerCase().includes(searchQuery.toLowerCase()) ||
+      job.skills.some((skill) => skill.toLowerCase().includes(searchQuery.toLowerCase()))
+  );
+
+  if (loading) {
+    return (
+      <div className="flex justify-center items-center h-64">
+        <p className="text-lg text-muted-foreground">Loading jobs...</p>
+      </div>
+    );
+  }
+
+  if (error || !user) {
+    return (
+      <div className="text-center py-12">
+        <h2 className="text-2xl font-bold text-destructive mb-2">Authentication Required</h2>
+        <p className="text-muted-foreground mb-4">{error || "Please log in."}</p>
+        <Button onClick={() => window.location.href = '/login'} className="hover-lift">
+          Go to Login
+        </Button>
+      </div>
+    );
+  }
+
+  if (filteredJobs.length === 0 && jobs.length === 0) {
+    return (
+      <div className="text-center py-12">
+        <h2 className="text-2xl font-bold text-foreground mb-2">No Jobs Found</h2>
+        <p className="text-muted-foreground">Set up your career profile to see personalized job listings.</p>
+      </div>
+    );
+  }
 
   return (
     <div className="space-y-6 max-w-7xl mx-auto">
@@ -98,7 +148,6 @@ const Jobs = () => {
           </Button>
         </div>
 
-        {/* Search Bar */}
         <Card className="p-4 shadow-md">
           <div className="flex gap-3">
             <div className="relative flex-1">
@@ -117,7 +166,6 @@ const Jobs = () => {
           </div>
         </Card>
 
-        {/* Filter Chips */}
         <div className="flex gap-2 flex-wrap">
           {filters.map((filter, index) => (
             <Button
@@ -135,16 +183,15 @@ const Jobs = () => {
         </div>
       </div>
 
-      {/* Featured Jobs */}
-      {jobsData.filter(job => job.featured).length > 0 && (
+      {filteredJobs.filter((job) => job.featured).length > 0 && (
         <div className="space-y-4">
           <h3 className="text-xl font-semibold text-foreground flex items-center gap-2">
             <span className="text-secondary">⭐</span>
             Featured Opportunities
           </h3>
           <div className="grid gap-4">
-            {jobsData
-              .filter(job => job.featured)
+            {filteredJobs
+              .filter((job) => job.featured)
               .map((job, index) => (
                 <Card
                   key={job.id}
@@ -167,21 +214,26 @@ const Jobs = () => {
                             <MapPin className="h-4 w-4" />
                             {job.location}
                           </div>
-                          <div className="flex items-center gap-1">
-                            <DollarSign className="h-4 w-4" />
-                            {job.salary}
-                          </div>
+                          {job.salary && (
+                            <div className="flex items-center gap-1">
+                              <DollarSign className="h-4 w-4" />
+                              {job.salary}
+                            </div>
+                          )}
                         </div>
                       </div>
                       <Badge variant="outline">{job.type}</Badge>
                     </div>
 
                     <div className="flex flex-wrap gap-2">
-                      {job.skills.map((skill) => (
+                      {job.skills.slice(0, 5).map((skill) => (
                         <Badge key={skill} variant="secondary">
                           {skill}
                         </Badge>
                       ))}
+                      {job.skills.length > 5 && (
+                        <Badge variant="secondary">+{job.skills.length - 5}</Badge>
+                      )}
                     </div>
 
                     <div className="flex items-center justify-between">
@@ -190,7 +242,13 @@ const Jobs = () => {
                         <Button variant="outline" size="sm" className="hover-lift">
                           <Bookmark className="h-4 w-4" />
                         </Button>
-                        <Button size="sm" className="hover-lift">Apply Now</Button>
+                        <Button 
+                          size="sm" 
+                          className="hover-lift"
+                          onClick={() => window.open(job.applyLink, "_blank")}
+                        >
+                          Apply Now
+                        </Button>
                       </div>
                     </div>
                   </div>
@@ -200,17 +258,18 @@ const Jobs = () => {
         </div>
       )}
 
-      {/* All Jobs */}
       <div className="space-y-4">
-        <h3 className="text-xl font-semibold text-foreground">All Positions</h3>
+        <h3 className="text-xl font-semibold text-foreground">
+          All Positions ({filteredJobs.filter((job) => !job.featured).length})
+        </h3>
         <div className="grid gap-4">
-          {jobsData
-            .filter(job => !job.featured)
+          {filteredJobs
+            .filter((job) => !job.featured)
             .map((job, index) => (
               <Card
                 key={job.id}
                 className="p-6 hover-lift transition-all duration-300 animate-fade-in shadow-md"
-                style={{ animationDelay: `${(index + 2) * 100}ms` }}
+                style={{ animationDelay: `${(index + (filteredJobs.filter(j => j.featured).length)) * 100}ms` }}
               >
                 <div className="space-y-4">
                   <div className="flex items-start justify-between gap-4">
@@ -225,21 +284,26 @@ const Jobs = () => {
                           <MapPin className="h-4 w-4" />
                           {job.location}
                         </div>
-                        <div className="flex items-center gap-1">
-                          <DollarSign className="h-4 w-4" />
-                          {job.salary}
-                        </div>
+                        {job.salary && (
+                          <div className="flex items-center gap-1">
+                            <DollarSign className="h-4 w-4" />
+                            {job.salary}
+                          </div>
+                        )}
                       </div>
                     </div>
                     <Badge variant="outline">{job.type}</Badge>
                   </div>
 
                   <div className="flex flex-wrap gap-2">
-                    {job.skills.map((skill) => (
+                    {job.skills.slice(0, 5).map((skill) => (
                       <Badge key={skill} variant="outline">
                         {skill}
                       </Badge>
                     ))}
+                    {job.skills.length > 5 && (
+                      <Badge variant="outline">+{job.skills.length - 5}</Badge>
+                    )}
                   </div>
 
                   <div className="flex items-center justify-between">
@@ -248,13 +312,22 @@ const Jobs = () => {
                       <Button variant="outline" size="sm" className="hover-lift">
                         <Bookmark className="h-4 w-4" />
                       </Button>
-                      <Button size="sm" className="hover-lift">Apply Now</Button>
+                      <Button 
+                        size="sm" 
+                        className="hover-lift"
+                        onClick={() => window.open(job.applyLink, "_blank")}
+                      >
+                        Apply Now
+                      </Button>
                     </div>
                   </div>
                 </div>
               </Card>
             ))}
         </div>
+        {filteredJobs.length === 0 && jobs.length > 0 && (
+          <p className="text-center text-muted-foreground py-8">No jobs match your search. Try different keywords.</p>
+        )}
       </div>
     </div>
   );
