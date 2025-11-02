@@ -18,6 +18,17 @@ try:
 except ValueError:
     pass
 
+CAREERS_CATALOG = {}
+try:
+    with open('careers.json', 'r') as f:
+        careers_list = json.load(f)
+        # Create a simple {CareerName: [skills]} dictionary for the prompt
+        CAREERS_CATALOG = {career['displayName']: career['skills'] for career in careers_list}
+    print(f"--- DEBUG: Successfully loaded {len(CAREERS_CATALOG)} careers from catalog.")
+except Exception as e:
+    print(f"--- DEBUG (CRITICAL ERROR): Failed to load careers.json: {e}")
+# --- END NEW ---
+
 vertexai.init(project=PROJECT_ID, location=LOCATION)
 db = firestore.Client()
 
@@ -51,29 +62,53 @@ def _call_gemini(prompt, file_part=None):
         return None
 
 def _get_recommendations(skills_list):
-    """Generates recommendations and gaps from a list of skills."""
+    """Generates recommendations and gaps from a list of skills using a fixed catalog."""
     print(f"--- DEBUG: Getting recommendations for skills: {skills_list}")
+
+    # If the catalog failed to load, return an error
+    if not CAREERS_CATALOG:
+        print("--- DEBUG (CRITICAL ERROR): Career catalog is empty. Aborting analysis.")
+        return None
+
+    # Convert the catalog to a JSON string to pass to the prompt
+    catalog_json = json.dumps(CAREERS_CATALOG, indent=2)
+
     prompt = f"""
-    You are an expert career and HR analyst. A user has these skills: {json.dumps(skills_list)}.
-    1. What are the top 3 best-fit career paths?
-    2. For *each*, what are the top 5 essential skills they are *missing*?
-    Respond *only* in this exact JSON format:
+    You are an expert career and HR analyst. You MUST follow these instructions.
+    
+    A user has this list of skills:
+    {json.dumps(skills_list)}
+
+    Here is your complete "Career Catalog". You MUST use this catalog exclusively. Do not invent new careers or skills.
+    The catalog is a JSON object where the key is the "Career Name" and the value is the "List of Required Skills".
+
+    --- CATALOG START ---
+    {catalog_json}
+    --- CATALOG END ---
+
+    Your task:
+    1.  Compare the user's skill list against the "List of Required Skills" for every career in the catalog.
+    2.  Identify the top 3 "Career Names" from the catalog that are the best fit for the user.
+    3.  For *each* of those 3 careers, determine the "skill_gaps". A skill gap is a skill that is in the catalog's "List of Required Skills" but NOT in the user's skill list. List the top 5 most important missing skills.
+    
+    Respond *only* in this exact JSON format. Do not add any other text or markdown.
     {{"recommendations": [
         {{"career": "Career 1", "skill_gaps": ["Skill A", "Skill B"]}},
         {{"career": "Career 2", "skill_gaps": ["Skill C", "Skill D"]}},
         {{"career": "Career 3", "skill_gaps": ["Skill E", "Skill F"]}}
     ]}}
     """
+    
     analysis_json = _call_gemini(prompt)
     if not analysis_json:
         return None
-    
+
     try:
         return json.loads(analysis_json)
     except json.JSONDecodeError as e:
         print(f"--- DEBUG (ERROR): Failed to parse recommendations JSON: {e}")
         return None
-
+        
 def _get_roadmap(career_name, skill_gaps):
     """Generates a learning roadmap for a specific career."""
     print(f"--- DEBUG: Generating roadmap for {career_name}...")
@@ -104,6 +139,18 @@ def _get_roadmap(career_name, skill_gaps):
 # --- MAIN FUNCTION ---
 @functions_framework.http
 def handle_quiz_results(request):
+    if request.method == 'OPTIONS':
+        headers = {
+            'Access-Control-Allow-Origin': '*',
+            'Access-Control-Allow-Methods': 'POST',
+            'Access-Control-Allow-Headers': 'Authorization, Content-Type',
+            'Access-Control-Max-Age': '3600'
+        }
+        return ('', 204, headers)
+
+    # === Standard CORS Header ===
+    headers = {'Access-Control-Allow-Origin': '*'}
+    
     # 1. Authenticate user
     try:
         auth_header = request.headers.get('Authorization')
@@ -111,7 +158,7 @@ def handle_quiz_results(request):
         decoded_token = auth.verify_id_token(id_token)
         user_id = decoded_token['uid']
     except Exception as e:
-        return f"Authentication error: {e}", 403
+        return f"Authentication error: {e}", 403, headers
 
     # 2. Get request data
     try:
@@ -120,11 +167,11 @@ def handle_quiz_results(request):
         skills_list = data.get('final_skills') 
         
         if not skills_list:
-            return "Bad Request: Missing 'final_skills'", 400
+            return "Bad Request: Missing 'final_skills'", 400, headers
         # --- END FIX ---
             
     except Exception as e:
-        return f"Bad Request: Invalid JSON: {e}", 400
+        return f"Bad Request: Invalid JSON: {e}", 400, headers
 
     try:
         # 3. STEP 1: Skills are provided.
@@ -133,7 +180,7 @@ def handle_quiz_results(request):
         # 4. STEP 2: Get Recommendations
         analysis_data = _get_recommendations(skills_list)
         if not analysis_data:
-            return "Analysis failed: Could not get recommendations.", 500
+            return "Analysis failed: Could not get recommendations.", 500, headers
 
         # 5. STEP 3: Get Roadmaps (in a loop)
         for rec in analysis_data.get("recommendations", []):
@@ -153,8 +200,8 @@ def handle_quiz_results(request):
         
         # 7. Return the final result
         del final_data_to_save["last_updated"] # Fix JSON serializable error
-        return final_data_to_save, 200
+        return final_data_to_save, 200, headers
 
     except Exception as e:
         print(f"--- DEBUG (CRASH): Full pipeline error: {e}")
-        return f"Internal Server Error: {e}", 500
+        return f"Internal Server Error: {e}", 500, headers

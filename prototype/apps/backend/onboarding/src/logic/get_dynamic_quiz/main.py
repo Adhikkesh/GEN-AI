@@ -38,6 +38,18 @@ FIRST_QUESTION = {
 # --- MAIN FUNCTION ---
 @functions_framework.http
 def get_dynamic_quiz(request):
+    if request.method == 'OPTIONS':
+        headers = {
+            'Access-Control-Allow-Origin': '*',
+            'Access-Control-Allow-Methods': 'POST',
+            'Access-Control-Allow-Headers': 'Authorization, Content-Type',
+            'Access-Control-Max-Age': '3600'
+        }
+        return ('', 204, headers)
+
+    # === Standard CORS Header ===
+    headers = {'Access-Control-Allow-Origin': '*'}
+    
     # 1. Authenticate user
     try:
         auth_header = request.headers.get('Authorization')
@@ -59,7 +71,7 @@ def get_dynamic_quiz(request):
         # --- If history is empty, return the first question ---
         if not conversation_history:
             print("--- DEBUG: Sending first question.")
-            return FIRST_QUESTION, 200
+            return FIRST_QUESTION, 200, headers
 
         print(f"--- DEBUG: Getting next question based on history: {conversation_history}")
 
@@ -97,7 +109,7 @@ def get_dynamic_quiz(request):
 
         if not response.text:
             print(f"--- DEBUG (ERROR): Gemini response was blocked. Feedback: {response.prompt_feedback}")
-            return "Analysis failed: Gemini response was blocked.", 500
+            return "Analysis failed: Gemini response was blocked.", 500, headers
 
 
         print(f"--- DEBUG: Raw Gemini response: {response.text}")
@@ -105,7 +117,7 @@ def get_dynamic_quiz(request):
 
         next_step_data = json.loads(clean_response)
         print(f"--- DEBUG (SUCCESS): Returning next step: {next_step_data}")
-        return next_step_data, 200
+        return next_step_data, 200, headers
 
     except Exception as e:
         print(f"--- DEBUG (CRASH): Full pipeline error: {e}")

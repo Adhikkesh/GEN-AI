@@ -1,0 +1,170 @@
+[
+  {
+    "id": "software-engineer",
+    "displayName": "Software Engineer",
+    "description": "Designs, develops, and maintains scalable software applications using modern engineering principles.",
+    "skills": ["Java", "Python", "C++", "Data Structures", "Algorithms", "Git", "SQL", "OOP", "System Design", "APIs"]
+  },
+  {
+    "id": "frontend-developer",
+    "displayName": "Frontend Developer",
+    "description": "Builds dynamic and responsive user interfaces that define the look and feel of web applications.",
+    "skills": ["HTML", "CSS", "JavaScript", "React", "Next.js", "TypeScript", "Tailwind CSS", "Accessibility", "UX Design", "REST APIs"]
+  },
+  {
+    "id": "backend-developer",
+    "displayName": "Backend Developer",
+    "description": "Focuses on server-side logic, APIs, and databases to support frontend and mobile applications.",
+    "skills": ["Node.js", "Python", "Go", "Java", "RESTful APIs", "GraphQL", "SQL", "NoSQL", "Docker", "Authentication"]
+  },
+  {
+    "id": "full-stack-developer",
+    "displayName": "Full-Stack Developer",
+    "description": "Handles both frontend and backend development, creating complete web applications end-to-end.",
+    "skills": ["React", "Node.js", "Express.js", "TypeScript", "MongoDB", "PostgreSQL", "CI/CD", "Docker", "Git", "System Design"]
+  },
+  {
+    "id": "data-scientist",
+    "displayName": "Data Scientist",
+    "description": "Extracts insights from structured and unstructured data to guide business decisions and innovation.",
+    "skills": ["Python", "R", "SQL", "Machine Learning", "Statistics", "Data Visualization", "Pandas", "Matplotlib", "NumPy", "Feature Engineering"]
+  },
+  {
+    "id": "machine-learning-engineer",
+    "displayName": "Machine Learning Engineer",
+    "description": "Designs, trains, and deploys AI models and pipelines for predictive analytics and automation.",
+    "skills": ["Python", "TensorFlow", "PyTorch", "Scikit-learn", "ML Pipelines", "MLOps", "Model Deployment", "Data Preprocessing", "AWS Sagemaker"]
+  },
+  {
+    "id": "ai-engineer",
+    "displayName": "AI Engineer",
+    "description": "Develops generative AI and large language model-based systems for automation and intelligent apps.",
+    "skills": ["Python", "LLMs", "LangChain", "Vector Databases", "Prompt Engineering", "OpenAI API", "Hugging Face", "Retrieval-Augmented Generation (RAG)", "Fine-Tuning"]
+  },
+  {
+    "id": "prompt-engineer",
+    "displayName": "Prompt Engineer",
+    "description": "Designs and optimizes prompts to effectively guide large language models for various applications.",
+    "skills": ["Prompt Design", "LLMs", "Chain of Thought", "LangChain", "OpenAI API", "AI Safety", "Prompt Tuning", "Generative AI Workflows"]
+  },
+  {
+    "id": "data-analyst",
+    "displayName": "Data Analyst",
+    "description": "Analyzes datasets to extract actionable insights and support business intelligence decisions.",
+    "skills": ["SQL", "Excel", "Power BI", "Tableau", "Python (Pandas)", "Statistics", "Data Cleaning", "Visualization", "A/B Testing"]
+  },
+  {
+    "id": "data-engineer",
+    "displayName": "Data Engineer",
+    "description": "Builds scalable data pipelines and manages infrastructure for analytics and machine learning systems.",
+    "skills": ["SQL", "Python", "Spark", "Kafka", "Airflow", "ETL/ELT", "Data Warehousing", "AWS Glue", "BigQuery"]
+  },
+  {
+    "id": "devops-engineer",
+    "displayName": "DevOps Engineer",
+    "description": "Automates deployment, integration, and infrastructure management to streamline software delivery.",
+    "skills": ["CI/CD", "Jenkins", "GitLab CI", "Docker", "Kubernetes", "Terraform", "Ansible", "Monitoring", "Cloud Platforms"]
+  },
+  {
+    "id": "cloud-engineer",
+    "displayName": "Cloud Engineer",
+    "description": "Architects and manages applications and infrastructure across major cloud platforms.",
+    "skills": ["AWS", "GCP", "Azure", "Kubernetes", "Terraform", "Networking", "Serverless", "Cloud Security", "IAM"]
+  },
+  {
+    "id": "cloud-security-engineer",
+    "displayName": "Cloud Security Engineer",
+    "description": "Secures cloud infrastructure and ensures compliance, identity, and access management across services.",
+    "skills": ["AWS Security", "Azure Security", "IAM", "SIEM", "Vulnerability Scanning", "Penetration Testing", "Encryption", "Compliance (SOC2, ISO)"]
+  },
+  {
+    "id": "cybersecurity-analyst",
+    "displayName": "Cybersecurity Analyst",
+    "description": "Protects systems and data from cyber threats through monitoring, testing, and incident response.",
+    "skills": ["Network Security", "Penetration Testing", "Firewalls", "Wireshark", "Cryptography", "Incident Response", "SIEM Tools", "Threat Hunting"]
+  },
+  {
+    "id": "blockchain-developer",
+    "displayName": "Blockchain Developer",
+    "description": "Builds decentralized applications (dApps) and smart contracts on blockchain networks.",
+    "skills": ["Solidity", "Rust", "Web3.js", "Ethers.js", "Anchor", "Ethereum", "Solana", "Smart Contracts", "DeFi", "Blockchain Architecture"]
+  },
+  {
+    "id": "embedded-systems-engineer",
+    "displayName": "Embedded Systems Engineer",
+    "description": "Designs low-level software for embedded devices, IoT systems, and hardware integrations.",
+    "skills": ["C", "C++", "Microcontrollers", "RTOS", "I2C", "SPI", "USART", "PCB Design", "IoT Protocols", "Embedded Linux"]
+  },
+  {
+    "id": "mobile-app-developer",
+    "displayName": "Mobile App Developer",
+    "description": "Develops applications for Android and iOS devices, focusing on performance and user experience.",
+    "skills": ["Kotlin", "Swift", "React Native", "Flutter", "Firebase", "REST APIs", "UI/UX Principles", "State Management"]
+  },
+  {
+    "id": "game-developer",
+    "displayName": "Game Developer",
+    "description": "Creates engaging video games with interactive gameplay, graphics, and physics systems.",
+    "skills": ["C++", "C#", "Unity", "Unreal Engine", "3D Math", "Blender", "Physics Engines", "AI for Games", "Shader Programming"]
+  },
+  {
+    "id": "ar-vr-developer",
+    "displayName": "AR/VR Developer",
+    "description": "Builds immersive augmented and virtual reality experiences for gaming, training, and simulations.",
+    "skills": ["Unity", "Unreal Engine", "C#", "ARCore", "ARKit", "3D Modeling", "Spatial Computing", "XR Interaction Toolkit"]
+  },
+  {
+    "id": "ui-ux-designer",
+    "displayName": "UI/UX Designer",
+    "description": "Designs intuitive, user-centered digital experiences through research, prototyping, and testing.",
+    "skills": ["Figma", "Sketch", "Adobe XD", "User Research", "Wireframing", "Prototyping", "Accessibility", "Design Systems"]
+  },
+  {
+    "id": "product-manager-technical",
+    "displayName": "Product Manager (Technical)",
+    "description": "Defines product vision, coordinates teams, and aligns engineering with business objectives.",
+    "skills": ["Agile", "Scrum", "Roadmapping", "User Stories", "Market Research", "Jira", "Analytics", "Stakeholder Communication"]
+  },
+  {
+    "id": "qa-automation-engineer",
+    "displayName": "QA Automation Engineer",
+    "description": "Develops automated tests to ensure quality and reliability in software releases.",
+    "skills": ["Selenium", "Cypress", "Playwright", "Python", "Java", "TestNG", "CI/CD", "API Testing", "Regression Testing"]
+  },
+  {
+    "id": "database-administrator-dba",
+    "displayName": "Database Administrator (DBA)",
+    "description": "Maintains and optimizes databases for performance, security, and availability.",
+    "skills": ["SQL", "PostgreSQL", "MySQL", "Oracle", "Backup & Recovery", "Database Security", "Replication", "Performance Tuning"]
+  },
+  {
+    "id": "network-engineer",
+    "displayName": "Network Engineer",
+    "description": "Designs and maintains organizational network infrastructure ensuring secure communication.",
+    "skills": ["Cisco", "Routing (BGP, OSPF)", "Switching", "TCP/IP", "VPNs", "Firewalls", "Network Monitoring", "Wireshark"]
+  },
+  {
+    "id": "computer-vision-engineer",
+    "displayName": "Computer Vision Engineer",
+    "description": "Creates visual recognition and image analysis systems using deep learning and computer vision.",
+    "skills": ["Python", "OpenCV", "TensorFlow", "PyTorch", "CNNs", "Image Processing", "Object Detection", "3D Reconstruction"]
+  },
+  {
+    "id": "nlp-engineer",
+    "displayName": "NLP Engineer",
+    "description": "Builds systems that process, analyze, and generate human language using AI models.",
+    "skills": ["Python", "Transformers", "BERT", "spaCy", "LLMs", "NLP Preprocessing", "Hugging Face", "RAG Systems"]
+  },
+  {
+    "id": "solutions-architect",
+    "displayName": "Solutions Architect",
+    "description": "Designs scalable and cost-effective technology solutions tailored to business needs.",
+    "skills": ["AWS", "GCP", "Azure", "System Design", "Microservices", "Networking", "APIs", "Databases", "Cost Optimization"]
+  },
+  {
+    "id": "data-product-manager",
+    "displayName": "Data Product Manager",
+    "description": "Bridges data engineering and business strategy to deliver data-driven products and platforms.",
+    "skills": ["SQL", "Analytics", "Product Strategy", "Data Governance", "Storytelling with Data", "Agile", "AI Integration"]
+  }
+]
